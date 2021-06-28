@@ -2,7 +2,7 @@
 
 mv Install.sh /root/Install.sh > /dev/null 2>&1
 
-#changing swap value(Not all providers support)
+#changing swap memory value(Not all providers support)
 echo 60 > /proc/sys/vm/swappiness
 
 #Checking if AutoClean is already installed
