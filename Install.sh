@@ -1,4 +1,12 @@
 #!/bin/bash
+if [[ "$EUID" -ne 0 ]]; then
+echo "Sorry, you need to run this as root"
+exit 0
+
+echo -e "0;36[0;35m////////////////////////////////////////////////////////////"
+figlet CacheAutoClean
+echo -e "0;36[0;35m////////////////////////////////////////////////////////////"
+echo ""
 
 mv Install.sh /root/Install.sh > /dev/null 2>&1
 
@@ -10,8 +18,6 @@ if [[ -e /etc/init.d/AutoClean.sh ]]; then
 rm -rf /etc/init.d/AutoClean.sh
 update-rc.d -f AutoClean.sh remove > /dev/null 2>&1
 killall AutoClean.sh > /dev/null 2>&1
-wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/AutoClean.sh > /dev/null 2>&1
-else
 wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/AutoClean.sh > /dev/null 2>&1
 fi
 
