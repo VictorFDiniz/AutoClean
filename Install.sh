@@ -26,8 +26,7 @@ killall auto-clean.sh > /dev/null 2>&1
 wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
 fi
 
-cd /etc/init.d
-chmod 775 auto-clean.sh
+chmod 775 /etc/init.d/auto-clean.sh
 
 #Run at system startup
 update-rc.d auto-clean.sh defaults > /dev/null 2>&1
