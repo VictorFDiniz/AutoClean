@@ -2,14 +2,15 @@
 if [[ "$EUID" -ne 0 ]]; then
 echo "Sorry, you need to run this as root"
 exit 0
+fi
 
 apt-get update -y > /dev/null 2>&1
 apt-get install figlet -y > /dev/null 2>&1
 
 
-echo -e "0;36[0;35m////////////////////////////////////////////////////////////"
-figlet CacheAutoClean
-echo -e "0;36[0;35m////////////////////////////////////////////////////////////"
+echo -e "\033[0;36m////////////////////////////////////////////////////////////"
+figlet AutoClean
+echo -e "\033[0;36m////////////////////////////////////////////////////////////"
 echo ""
 
 mv Install.sh /root/Install.sh > /dev/null 2>&1
