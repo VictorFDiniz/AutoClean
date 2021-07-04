@@ -7,8 +7,10 @@ fi
 fun_inst() {
 
 echo""
+if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
 read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
 [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+fi
 echo ""
 echo -e "\033[1;36minstalling..."
 sleep 1.5
