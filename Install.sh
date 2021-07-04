@@ -40,13 +40,14 @@ mv Install.sh /root/Install.sh > /dev/null 2>&1
 #changing swap memory value(Not all providers support)
 echo 60 > /proc/sys/vm/swappiness
 
-#Checking if AutoClean is already installed
+#Checking and installing
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
 fun_inst
 elif [[ -e /etc/init.d/auto-clean.sh ]]; then
+sleep 1
 read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
-[[ $response = @(n|N) ]] && exit 0
-else
+[[ $response = @(n|N) ]] && sleep 0.5 && exit 0
+#Re-installing
 rm -rf /etc/init.d/auto-clean.sh
 update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
 killall auto-clean.sh > /dev/null 2>&1
