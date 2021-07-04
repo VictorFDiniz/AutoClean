@@ -20,7 +20,7 @@ echo 60 > /proc/sys/vm/swappiness
 
 #Checking if AutoClean is already installed
 if [[ -e /etc/init.d/auto-clean.sh ]]; then
-read -p "$(echo -e "\033[1;36mAutoClean is already installed, do you want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
+read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
 elif [[ $response = @(n|N) ]]; then
 exit 0
 else
