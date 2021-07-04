@@ -6,16 +6,16 @@ fi
 
 fun_inst() {
 
+echo""
+read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
+[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 echo ""
 echo -e "\033[1;36minstalling..."
 sleep 1.5
 echo ""
-
 wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-
 cd /etc/init.d
 chmod 775 auto-clean.sh
-
 #Run at system startup
 update-rc.d auto-clean.sh defaults > /dev/null 2>&1
 ./auto-clean.sh
@@ -35,10 +35,10 @@ echo -e "\033[1;36m////////////////////////////////////////////////////////////"
 echo ""
 echo ""
 
-mv Install.sh /root/Install.sh > /dev/null 2>&1
-
 #changing swap memory value(Not all providers support)
 echo 60 > /proc/sys/vm/swappiness
+
+mv Install.sh /root/Install.sh > /dev/null 2>&1
 
 #Checking and installing
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
