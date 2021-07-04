@@ -24,7 +24,7 @@ read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? 
 [[ $response = @(n|N) ]] && exit 0
 else
 echo ""
-echo -e "\033[1;36minstalling...
+echo -e "\033[1;36minstalling..."
 sleep 1.5
 rm -rf /etc/init.d/auto-clean.sh
 update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
