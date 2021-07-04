@@ -46,7 +46,7 @@ fun_inst
 elif [[ -e /etc/init.d/auto-clean.sh ]]; then
 sleep 1
 read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
-[[ $response = @(n|N) ]] && sleep 0.5 && exit 0
+[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 #Re-installing
 rm -rf /etc/init.d/auto-clean.sh
 update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
