@@ -7,6 +7,7 @@ fi
 apt-get update -y > /dev/null 2>&1
 apt-get install figlet -y > /dev/null 2>&1
 
+clear
 echo -e "\033[1;36m////////////////////////////////////////////////////////////"
 figlet AutoClean
 echo -e "\033[1;36m////////////////////////////////////////////////////////////"
@@ -22,10 +23,10 @@ echo 60 > /proc/sys/vm/swappiness
 if [[ -e /etc/init.d/auto-clean.sh ]]; then
 read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
 [[ $response = @(n|N) ]] && exit 0
-else
 echo ""
 echo -e "\033[1;36minstalling..."
 sleep 1.5
+echo ""
 rm -rf /etc/init.d/auto-clean.sh
 update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
 killall auto-clean.sh > /dev/null 2>&1
