@@ -6,14 +6,9 @@ fi
 
 fun_inst() {
 
-echo""
-if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
-read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
-[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
-fi
 echo ""
 echo -e "\033[1;36minstalling..."
-sleep 1.5
+sleep 1
 echo ""
 wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
 cd /etc/init.d
@@ -27,8 +22,8 @@ echo "DONE!"
 
 }
 
-apt-get update -y > /dev/null 2>&1
-apt-get install figlet -y > /dev/null 2>&1
+apt-get update -y
+apt-get install figlet -y
 
 clear
 echo -e "\033[1;36m////////////////////////////////////////////////////////////"
@@ -44,9 +39,11 @@ mv Install.sh /root/Install.sh > /dev/null 2>&1
 
 #Checking and installing
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
+echo""
+read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
+[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 fun_inst
 elif [[ -e /etc/init.d/auto-clean.sh ]]; then
-sleep 1
 read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
 [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 #Re-installing
