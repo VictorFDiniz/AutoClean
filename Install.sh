@@ -18,7 +18,22 @@ update-rc.d auto-clean.sh defaults > /dev/null 2>&1
 ./auto-clean.sh
 cd /root
 rm Install.sh
+echo "\033[1;36installation completed!"
+echo ""
+read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
+[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+while read num
+do
+if [[ $num =~ ^[0-9]+$ ]] && (( $num >= 0 && $num <= 100 ))
+then
+echo "vm.swappiness = $num" >> /etc/sysctl.conf
+sysctl -p /etc/sysctl.conf
 echo "DONE!"
+exit 0
+else
+echo "Just numbers from 0 to 100"
+fi
+done
 
 }
 
@@ -31,9 +46,6 @@ figlet AutoClean
 echo -e "\033[1;36m////////////////////////////////////////////////////////////"
 echo ""
 echo ""
-
-#changing swap memory value(Not all providers support)
-echo 60 > /proc/sys/vm/swappiness
 
 mv Install.sh /root/Install.sh > /dev/null 2>&1
 
