@@ -7,7 +7,7 @@ fi
 fun_inst() {
 
 echo ""
-echo -e "\033[1;36minstalling..."
+echo -e "\033[1;36mInstalling..."
 sleep 1
 echo ""
 wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
@@ -18,7 +18,7 @@ update-rc.d auto-clean.sh defaults > /dev/null 2>&1
 ./auto-clean.sh
 cd /root
 rm Install.sh
-echo -e "\033[1;36minstallation completed!"
+echo -e "\033[1;36mInstallation completed!"
 echo ""
 read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
 [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
@@ -29,11 +29,11 @@ then
 echo "vm.swappiness = $num" >> /etc/sysctl.conf
 sysctl -p /etc/sysctl.conf > /dev/null 2>&1
 echo ""
-echo "DONE!"
+echo -e "\033[1;37mDONE!"
 exit 0
 else
 echo ""
-echo "Just numbers from 0 to 100"
+echo -e "\033[1;33mJust numbers from 0 to 100"
 fi
 done
 
