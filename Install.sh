@@ -29,7 +29,7 @@ then
 echo "vm.swappiness = $num" >> /etc/sysctl.conf
 sysctl -p /etc/sysctl.conf > /dev/null 2>&1
 echo ""
-echo -e "\033[1;37mDONE!"
+echo -e "\033[1;31mDONE!"
 exit 0
 else
 echo ""
