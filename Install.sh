@@ -36,6 +36,7 @@ echo ""
 echo -e "\033[1;33mJust numbers from 0 to 100"
 fi
 done
+echo ""
 
 }
 
