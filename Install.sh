@@ -26,7 +26,7 @@ while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]
 do
 if [[ $num =~ ^[0-9]+$ ]] && (( $num >= 0 && $num <= 100 ))
 then
-echo "vm.swappiness = $num" >> /etc/sysctl.conf
+sed -i "s/.*vm.swappiness.*/vm.swappiness=$num/" /etc/sysctl.conf
 sysctl -p /etc/sysctl.conf > /dev/null 2>&1
 echo ""
 echo -e "\033[1;31mDONE!"
