@@ -37,7 +37,7 @@ esac
   echo ""
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
-  ./auto-clean.sh; cd /root; rm Install.sh
+  ./auto-clean.sh; cd /root
   echo -e "\033[1;36mInstallation completed!"
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
@@ -56,7 +56,7 @@ else
 fi
 done
   echo ""
-
+  rm Install.sh
 }
 
   apt-get update -y
