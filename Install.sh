@@ -25,12 +25,12 @@ case $x in
     ;;
     3 | 03)
     sed -i "s/_cache_cln.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
-exit 0
     ;;
     *)
   echo "invalid option"
   sleep 1.5
-exit 0
+    ;;
+esac
   echo ""
   echo -e "\033[1;36mInstalling..."
   sleep 1
