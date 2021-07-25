@@ -19,11 +19,11 @@ fun_inst() {
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
-while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num 
+while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" num 
 do
-if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 ))
+if [[ $num =~ ^[0-9]+$ ]] && (( $num >= 0 && $num <= 100 ))
 then
-  sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
+  sed -i "s/.*vm.swappiness.*/vm.swappiness=$num/" /etc/sysctl.conf
   sysctl -p /etc/sysctl.conf > /dev/null 2>&1
   echo ""
   echo -e "\033[1;31mDONE!"
