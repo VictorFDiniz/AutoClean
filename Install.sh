@@ -18,13 +18,13 @@ fun_inst() {
   clear
 case $x in
     1 | 01)
-    sed -i "s/_cache_cln.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
+    sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
     ;;
     2 | 02)
-    sed -i "s/_cache_cln.*/_cache_cln=2/" /etc/init.d/auto-clean.sh
+    sed -i "s/_cache_cln=.*/_cache_cln=2/" /etc/init.d/auto-clean.sh
     ;;
     3 | 03)
-    sed -i "s/_cache_cln.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
+    sed -i "s/_cache_cln=.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
     ;;
     *)
   echo "invalid option"
