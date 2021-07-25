@@ -11,8 +11,7 @@ fun_inst() {
   sleep 1
   echo ""
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-  cd /etc/init.d
-  chmod 775 auto-clean.sh
+  cd /etc/init.d; chmod 775 auto-clean.sh
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   ./auto-clean.sh; cd /root; rm Install.sh
