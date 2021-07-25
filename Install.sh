@@ -15,7 +15,6 @@ fun_inst() {
   echo ""
   echo "What do you want to do?"
   read x
-  clear
 case $x in
     1 | 01)
     sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
