@@ -15,15 +15,15 @@ fun_inst() {
   chmod 775 auto-clean.sh
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
-  ./auto-clean.sh;cd /root;rm Install.sh
+  ./auto-clean.sh; cd /root; rm Install.sh
   echo -e "\033[1;36mInstallation completed!"
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
-while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" num do
-if [[ $num =~ ^[0-9]+$ ]] && (( $num >= 0 && $num <= 100 ))
+while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num do
+if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 ))
 then
-  sed -i "s/.*vm.swappiness.*/vm.swappiness=$num/" /etc/sysctl.conf
+  sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
   sysctl -p /etc/sysctl.conf > /dev/null 2>&1
   echo ""
   echo -e "\033[1;31mDONE!"
