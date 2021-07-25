@@ -6,12 +6,35 @@ fi
 
 fun_inst() {
 
+  wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
+  cd /etc/init.d; chmod 775 auto-clean.sh
+  echo -e "
+  1) Automate PageCache clearing(Default)
+  2) Automate dentries and inodes clearing
+  3) Automate PageCache, dentries and inodes clearing"
+  echo ""
+  echo "What do you want to do?"
+  read x
+  clear
+case $x in
+    1 | 01)
+    sed -i "s/_cache_cln.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
+    ;;
+    2 | 02)
+    sed -i "s/_cache_cln.*/_cache_cln=2/" /etc/init.d/auto-clean.sh
+    ;;
+    3 | 03)
+    sed -i "s/_cache_cln.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
+exit 0
+    ;;
+    *)
+  echo "invalid option"
+  sleep 1.5
+exit 0
   echo ""
   echo -e "\033[1;36mInstalling..."
   sleep 1
   echo ""
-  wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-  cd /etc/init.d; chmod 775 auto-clean.sh
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   ./auto-clean.sh; cd /root; rm Install.sh
@@ -50,11 +73,11 @@ done
 
 #Checking and installing
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
-  echo""
+  echo ""
   read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
   fun_inst
-elif [[ -e /etc/init.d/auto-clean.sh ]]; then
+else
   read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 #Re-installing
