@@ -8,10 +8,11 @@ fun_inst() {
 
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
   cd /etc/init.d; chmod 775 auto-clean.sh
+  
   echo -e "
-  1) Automate PageCache clearing(Default)
-  2) Automate dentries and inodes clearing
-  3) Automate PageCache, dentries and inodes clearing"
+1) Automate PageCache clearing(Default)
+2) Automate dentries and inodes clearing
+3) Automate PageCache, dentries and inodes clearing"
   echo ""
   echo "What do you want to do?"
   read x
@@ -30,6 +31,20 @@ case $x in
   sleep 1.5
     ;;
 esac
+
+echo -e "
+Values for the cache's trigger range from 5 to 90. 
+Choosing a value of 5 for the trigger means that cleaning will occur whenever RAM reaches 95% usage. 
+Values above 20 are not recommended, constant cleaning may corrupt something."
+
+while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[0-100]: ")" _num ; do
+if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 10 && $_num <= 95 )); then
+  sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
+else
+  echo ""
+  echo -e "\033[1;33mJust numbers from 10 to 95"
+fi
+done
   echo ""
   echo -e "\033[1;36mInstalling..."
   sleep 1
@@ -42,8 +57,7 @@ esac
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num ; do
-if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 ))
-then
+if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
   sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
   sysctl -p /etc/sysctl.conf > /dev/null 2>&1
   echo ""
