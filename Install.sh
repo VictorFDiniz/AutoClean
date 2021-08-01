@@ -40,6 +40,7 @@ Values above 20 are not recommended, constant cleaning may corrupt something."
 while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[0-100]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 10 && $_num <= 95 )); then
   sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
+break
 else
   echo ""
   echo -e "\033[1;33mJust numbers from 10 to 95"
