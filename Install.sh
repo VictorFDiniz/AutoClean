@@ -15,22 +15,27 @@ fun_inst() {
 3) Automate PageCache, dentries and inodes clearing"
   echo ""
   echo "What do you want to do?"
+while true; do
   read x
-case $x in
-    1 | 01)
-    sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
-    ;;
-    2 | 02)
-    sed -i "s/_cache_cln=.*/_cache_cln=2/" /etc/init.d/auto-clean.sh
-    ;;
-    3 | 03)
-    sed -i "s/_cache_cln=.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
-    ;;
-    *)
-  echo "invalid option"
-  sleep 1.5
-    ;;
-esac
+  case $x in
+      1 | 01)
+      sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
+      break
+      ;;
+      2 | 02)
+      sed -i "s/_cache_cln=.*/_cache_cln=2/" /etc/init.d/auto-clean.sh
+      break
+      ;;
+      3 | 03)
+      sed -i "s/_cache_cln=.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
+      break
+      ;;
+      *)
+    echo "invalid option"
+    sleep 0.5
+      ;;
+  esac
+done
 
 echo -e "
 Values for the cache's trigger range from 5 to 90. 
