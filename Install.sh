@@ -37,13 +37,13 @@ Values for the cache's trigger range from 5 to 90.
 Choosing a value of 5 for the trigger means that cleaning will occur whenever RAM reaches 95% usage. 
 Values above 20 are not recommended, constant cleaning may corrupt something."
 echo ""
-while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[0-100]: ")" _num ; do
-if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 10 && $_num <= 95 )); then
+while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[5-90]: ")" _num ; do
+if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 95 )); then
   sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
 break
 else
   echo ""
-  echo -e "\033[1;33mJust numbers from 10 to 95"
+  echo -e "\033[1;33mJust numbers from 5 to 90"
 fi
 done
   echo ""
