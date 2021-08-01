@@ -7,7 +7,6 @@ fi
 fun_inst() {
 
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-  cd /etc/init.d; chmod 775 auto-clean.sh
   
   echo -e "
 1) Automate PageCache clearing(Default)
@@ -39,11 +38,12 @@ done
 
 echo -e "
 Values for the cache's trigger range from 5 to 90. 
-Choosing a value of 5 for the trigger means that cleaning will occur whenever RAM reaches 95% usage. 
+Choosing a value of 5 for the trigger means that 
+cleaning will occur whenever RAM reaches 95% usage. 
 Values above 20 are not recommended, constant cleaning may corrupt something."
 echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[5-90]: ")" _num ; do
-if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 95 )); then
+if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 90 )); then
   sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
 break
 else
@@ -57,6 +57,7 @@ done
   echo ""
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
+  cd /etc/init.d; chmod 775 auto-clean.sh
   ./auto-clean.sh; cd /root
   echo -e "\033[1;36mInstallation completed!"
   echo ""
