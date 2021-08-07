@@ -14,7 +14,7 @@ fun_inst() {
 \033[1;36m3\033[1;31m) \033[1;33mAutomate PageCache, dentries and inodes clearing\033[0m"
   echo ""
 while true; do
-  read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? ")" x
+  read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? \033[1;33m[1/2/3]:\033[1;37m ")" x
   case $x in
       1 | 01)
       sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
