@@ -9,13 +9,12 @@ fun_inst() {
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
   
   echo -e "
-1) Automate PageCache clearing(Default)
-2) Automate dentries and inodes clearing
-3) Automate PageCache, dentries and inodes clearing"
+\033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing \033[1;31m
+\033[1;36m2\033[1;31m) \033[1;33mAutomate dentries and inodes clearing \033[1;31m
+\033[1;36m3\033[1;31m) \033[1;33mAutomate PageCache, dentries and inodes clearing\033[0m"
   echo ""
-  echo "What do you want to do?"
 while true; do
-  read x
+  read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m?")" x
   case $x in
       1 | 01)
       sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
