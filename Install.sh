@@ -38,10 +38,10 @@ while true; do
 done
 
 echo -e "
-Values for the cache's trigger range from 5 to 90. 
-Choosing a value of 5 for the trigger means that 
+\033[1;33mValues for the cache's trigger range from 5 to 90. 
+Choose a value of 5 for the trigger means that 
 cleaning will occur whenever RAM reaches 95% usage. 
-Values above 20 are not recommended, constant cleaning may corrupt something."
+Values above 20 are not recommended, constant cleaning may corrupt something.\033[0m"
 echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[5-90]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 90 )); then
@@ -64,6 +64,11 @@ done
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
 [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+echo ""
+echo -e "
+\033[1;33mChoose a value of 60 for Swappiness means 
+that the system can Swap once the RAM reaches 40% usage.\033[0m"
+echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
 sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
