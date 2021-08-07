@@ -7,8 +7,8 @@
 # Default-Stop:      0 1 6
 ### END INIT INFO
 
-_ram_trig=15
-_cache_cln=1
+_ram_trig=
+_cache_cln=
 
 while :; do
 #Calculates the current percentage of free RAM available
