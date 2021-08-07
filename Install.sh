@@ -29,8 +29,10 @@ while true; do
       break
       ;;
       *)
-    echo "invalid option"
+    echo ""
+    echo -e "\033[1;31mInvalid option"
     sleep 0.5
+    echo ""
       ;;
   esac
 done
