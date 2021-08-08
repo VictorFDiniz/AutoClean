@@ -74,11 +74,11 @@ if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
 sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
   sysctl -p /etc/sysctl.conf > /dev/null 2>&1
   echo ""
-  echo -e "\033[1;31mDONE!"
+  echo -e "\033[1;31mDONE!\033[0m"
 exit 0
 else
   echo ""
-  echo -e "\033[1;33mJust numbers from 0 to 100\0"
+  echo -e "\033[1;33mJust numbers from 0 to 100"
 fi
 done
   echo ""
@@ -88,9 +88,9 @@ done
   echo -e "\033[1;33mRepo Upgrading :)\033[0m"
   echo ""
 while true; do
-for ((i = 0; i < 15; i++)); do
+for ((i = 0; i < 24; i++)); do
   echo -ne "\033[1;31m#"
-  sleep 0.1s
+  sleep 0.2
 done
   apt-get update -y > /dev/null 2>&1
   apt-get install figlet -y > /dev/null 2>&1
