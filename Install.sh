@@ -78,15 +78,24 @@ sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
 exit 0
 else
   echo ""
-  echo -e "\033[1;33mJust numbers from 0 to 100"
+  echo -e "\033[1;33mJust numbers from 0 to 100\0"
 fi
 done
   echo ""
   rm Install.sh
 }
 
-  apt-get update -y
-  apt-get install figlet -y
+  echo -e "\033[1;33mRepo Upgrading :)\033[0m"
+  echo ""
+while true; do
+for ((i = 0; i < 15; i++))
+  echo -ne "\033[1;31m#"
+  sleep 0.1s
+done
+  apt-get update -y > /dev/null 2>&1
+  apt-get install figlet -y > /dev/null 2>&1
+  break
+done
 
   clear
   echo -e "\033[1;36m////////////////////////////////////////////////////////////"
