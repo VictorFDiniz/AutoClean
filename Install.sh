@@ -88,7 +88,7 @@ done
   echo -e "\033[1;33mRepo Upgrading :)\033[0m"
   echo ""
 while true; do
-for ((i = 0; i < 15; i++))
+for ((i = 0; i < 15; i++)); do
   echo -ne "\033[1;31m#"
   sleep 0.1s
 done
