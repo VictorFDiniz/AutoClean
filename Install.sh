@@ -85,17 +85,31 @@ done
   rm Install.sh
 }
 
+fun_bar () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/end ]] && rm $HOME/end
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/end
+ ) > /dev/null 2>&1 &
+while true; do
+for ((i = 0; i < 20; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1
+done
+   [[ -e $HOME/end ]] && rm $HOME/end && break
+   echo -e "\033[1;31m#"
+   sleep 1
+   tput cuu1
+   tput dl1
+done
+}
+
   echo -e "\033[1;33mRepo Upgrading :)\033[0m"
   echo ""
-while true; do
-for ((i = 0; i < 24; i++)); do
-  echo -ne "\033[1;31m#"
-  sleep 0.2
-done
-  apt-get update -y > /dev/null 2>&1
-  apt-get install figlet -y > /dev/null 2>&1
-  break
-done
+  fun_bar 'apt-get update' 'apt-get install figlet'
 
   clear
   echo -e "\033[1;36m////////////////////////////////////////////////////////////"
