@@ -56,7 +56,7 @@ fi
   echo ""
   echo ""
   
-  mv Install.sh /$HOME/Install.sh
+  mv Install.sh /$HOME > /dev/null 2>&1
 
 fun_inst() {
 
