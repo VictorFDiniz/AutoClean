@@ -1,17 +1,75 @@
 #!/bin/bash
-if [[ "$EUID" -ne 0 ]]; then
-  echo "Sorry, you need to run this as root"
-exit 1
+
+[[ "$EUID" -ne 0 ]] && echo "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
+
+fun_bar () {
+command[0]="$1"
+command[1]="$2"
+ (
+[[ -e $HOME/end ]] && rm $HOME/end
+${command[0]} -y > /dev/null 2>&1
+${command[1]} -y > /dev/null 2>&1
+touch $HOME/end
+ ) > /dev/null 2>&1 &
+while true; do
+for ((i = 0; i < 20; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1
+done
+   [[ -e $HOME/end ]] && rm $HOME/end && break
+   echo -e "\033[1;31m#"
+   sleep 1
+   tput cuu1
+   tput dl1
+done
+}
+
+check_sys() {
+
+if [[ -f /etc/redhat-release ]]; then
+	release="centos"
+elif cat /etc/issue | grep -q -E -i "debian"; then
+	release="debian"
+elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+  release="ubuntu"
+elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+	release="centos"
+elif cat /proc/version | grep -q -E -i "debian"; then
+	release="debian"
+elif cat /proc/version | grep -q -E -i "ubuntu"; then
+	release="ubuntu"
+elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+	release="centos"
 fi
+
+  echo -e "\033[1;33mRepo Upgrading :)\033[0m"
+  echo ""
+if [[ $release = "centos" ]]; then
+  fun_bar 'yum -y install epel-release' 'yum repolist'
+  fun_bar 'yum update' 'yum install figlet'
+else
+  fun_bar 'apt-get update' 'apt-get install figlet'
+fi
+}
+
+  clear
+  echo -e "\033[1;36m////////////////////////////////////////////////////////////"
+  figlet AutoClean
+  echo -e "\033[1;36m////////////////////////////////////////////////////////////"
+  echo ""
+  echo ""
+  
+  mv Install.sh /root/Install.sh
 
 fun_inst() {
 
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
   
   echo -e "
-\033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing \033[1;31m
-\033[1;36m2\033[1;31m) \033[1;33mAutomate dentries and inodes clearing \033[1;31m
-\033[1;36m3\033[1;31m) \033[1;33mAutomate PageCache, dentries and inodes clearing\033[0m"
+\033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing
+\033[1;36m2\033[1;31m) \033[1;33mAutomate dentries and inodes clearing
+\033[1;36m3\033[1;31m) \033[1;33mAutomate PageCache, dentries and inodes clearing
+\033[1;36m4\033[1;31m) Skip\033[0m"
   echo ""
 while true; do
   read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? \033[1;33m[1/2/3]:\033[1;37m ")" x
@@ -28,6 +86,10 @@ while true; do
       sed -i "s/_cache_cln=.*/_cache_cln=3/" /etc/init.d/auto-clean.sh
       break
       ;;
+      4 | 04)
+      _skip=true
+      break
+      ;;
       *)
     echo ""
     echo -e "\033[1;31mInvalid option"
@@ -37,6 +99,7 @@ while true; do
   esac
 done
 
+if [[ $_skip != true ]]; then
   echo -e "
 \033[1;33mValues for the cache's trigger range from 5 to 90. 
 Choose a value of 5 for the trigger means that 
@@ -61,6 +124,10 @@ done
   cd /etc/init.d; chmod 775 auto-clean.sh
   ./auto-clean.sh; cd /root
   echo -e "\033[1;36mInstallation completed!"
+else
+  echo -e "\033[1;33mSkipped"
+fi
+  
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
 [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
@@ -85,39 +152,6 @@ done
   echo ""
   rm Install.sh
 }
-
-fun_bar () {
-command[0]="$1"
-command[1]="$2"
- (
-[[ -e $HOME/end ]] && rm $HOME/end
-${command[0]} -y > /dev/null 2>&1
-${command[1]} -y > /dev/null 2>&1
-touch $HOME/end
- ) > /dev/null 2>&1 &
-while true; do
-for ((i = 0; i < 20; i++)); do
-   echo -ne "\033[1;31m#"
-   sleep 0.1
-done
-   [[ -e $HOME/end ]] && rm $HOME/end && break
-   echo -e "\033[1;31m#"
-   sleep 1
-   tput cuu1
-   tput dl1
-done
-}
-
-  echo -e "\033[1;33mRepo Upgrading :)\033[0m"
-  echo ""
-  fun_bar 'apt-get update' 'apt-get install figlet'
-
-  clear
-  echo -e "\033[1;36m////////////////////////////////////////////////////////////"
-  figlet AutoClean
-  echo -e "\033[1;36m////////////////////////////////////////////////////////////"
-  echo ""
-  echo ""
 
   mv Install.sh /root/Install.sh
 
