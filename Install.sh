@@ -59,7 +59,7 @@ fi
   echo ""
   echo ""
   
-  mv Install.sh /root/Install.sh
+  mv Install.sh /root/Install.sh > /dev/null 2&>1
 
 fun_inst() {
 
@@ -125,7 +125,8 @@ done
   ./auto-clean.sh; cd /root
   echo -e "\033[1;36mInstallation completed!"
 else
-  echo -e "\033[1;33mSkipped"
+  echo ""
+  echo -e "\033[1;31mSkipped"
 fi
   
   echo ""
