@@ -56,7 +56,7 @@ fi
   echo ""
   echo ""
   
-  mv Install.sh /root/Install.sh > /dev/null 2&>1
+  mv Install.sh /$HOME/Install.sh
 
 fun_inst() {
 
@@ -119,7 +119,7 @@ done
 #Run at system startup
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd /root
+  ./auto-clean.sh; cd /$HOME
   echo -e "\033[1;36mInstallation completed!"
 else
   echo ""
