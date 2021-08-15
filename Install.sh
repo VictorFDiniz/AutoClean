@@ -153,8 +153,6 @@ done
   rm Install.sh
 }
 
-  mv Install.sh /root/Install.sh
-
 #Checking and installing
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
   echo ""
