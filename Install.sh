@@ -24,8 +24,6 @@ done
 done
 }
 
-check_sys() {
-
 if [[ -f /etc/redhat-release ]]; then
 	release="centos"
 elif cat /etc/issue | grep -q -E -i "debian"; then
@@ -50,7 +48,6 @@ if [[ $release = "centos" ]]; then
 else
   fun_bar 'apt-get update' 'apt-get install figlet'
 fi
-}
 
   clear
   echo -e "\033[1;36m////////////////////////////////////////////////////////////"
