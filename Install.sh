@@ -31,7 +31,7 @@ if [[ -f /etc/redhat-release ]]; then
 elif cat /etc/issue | grep -q -E -i "debian"; then
 	release="debian"
 elif cat /etc/issue | grep -q -E -i "ubuntu"; then
-  release="ubuntu"
+  	release="ubuntu"
 elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
 	release="centos"
 elif cat /proc/version | grep -q -E -i "debian"; then
