@@ -1,26 +1,27 @@
 #!/bin/bash
 
-[[ "$EUID" -ne 0 ]] && echo "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
+  [[ "$EUID" -ne 0 ]] && echo "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
 
 fun_bar () {
-command[0]="$1"
-command[1]="$2"
- (
-[[ -e $HOME/end ]] && rm $HOME/end
-${command[0]} -y > /dev/null 2>&1
-${command[1]} -y > /dev/null 2>&1
-touch $HOME/end
- ) > /dev/null 2>&1 &
+  
+  command[0]="$1"
+  command[1]="$2"
+  (
+  [[ -e $HOME/end ]] && rm $HOME/end
+  ${command[0]} -y > /dev/null 2>&1
+  ${command[1]} -y > /dev/null 2>&1
+  touch $HOME/end
+  ) > /dev/null 2>&1 &
 while true; do
-for ((i = 0; i < 20; i++)); do
-   echo -ne "\033[1;31m#"
-   sleep 0.1
+	for ((i = 0; i < 20; i++)); do
+  echo -ne "\033[1;31m#"
+  sleep 0.1
 done
-   [[ -e $HOME/end ]] && rm $HOME/end && break
-   echo -e "\033[1;31m#"
-   sleep 1
-   tput cuu1
-   tput dl1
+  [[ -e $HOME/end ]] && rm $HOME/end && break
+  echo -e "\033[1;31m#"
+  sleep 1
+  tput cuu1
+  tput dl1
 done
 }
 
@@ -43,10 +44,16 @@ fi
   echo -e "\033[1;33mRepo Upgrading :)\033[0m"
   echo ""
 if [[ $release = "centos" ]]; then
-  fun_bar 'yum -y install epel-release' 'yum repolist'
+  fun_bar 'yum install epel-release' 'yum repolist'
   fun_bar 'yum update' 'yum install figlet'
-else
+elif [[ $release = "debian" ]] || [[ $release = "ubuntu" ]]; then
   fun_bar 'apt-get update' 'apt-get install figlet'
+else
+  echo ""
+  echo -e
+"\033[1;31mCentOS, Debian or Ubuntu not detected,
+maybe the script doesn't work correctly\033[0m."
+
 fi
 
   clear
