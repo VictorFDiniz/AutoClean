@@ -83,14 +83,14 @@ fi
 fun_rm() {
 
 if [[ $release = centos ]]; then
- service auto-clean.sh stop
- chkconfig --del auto-clean.sh
+ service auto-clean.sh stop > /dev/null 2>&1
+ chkconfig --del auto-clean.sh > /dev/null 2>&1
  rm -rf /etc/init.d/auto-clean.sh
- killall auto-clean.sh
+ killall auto-clean.sh > /dev/null 2>&1
 elif [[ $release = debian ]] || [[ $release = ubuntu ]]; then
   update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
-  killall auto-clean.sh
+  killall auto-clean.sh > /dev/null 2>&1
 fi
 }
 
@@ -181,7 +181,7 @@ else
 fi
 done
   echo ""
-  rm Install.sh
+  rm -rf Install.sh
 }
 
 #Checking and installing
