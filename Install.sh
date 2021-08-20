@@ -53,7 +53,6 @@ else
   echo -e
 "\033[1;31mCentOS, Debian or Ubuntu not detected,
 maybe the script doesn't work correctly\033[0m."
-
 fi
 
   clear
@@ -64,6 +63,36 @@ fi
   echo ""
   
   mv Install.sh /$HOME > /dev/null 2>&1
+
+
+fun_startup() {
+
+#booting and setting to run at system startup
+if [[ $release = centos ]]; then
+  chkconfig --add auto-clean.sh
+  chkconfig --level 3 auto-clean.sh on
+  cd /etc/init.d; chmod 775 auto-clean.sh
+  ./auto-clean.sh; cd /$HOME
+elif [[ $release = debian ]] || [[ $release = ubuntu ]]; then
+  update-rc.d auto-clean.sh defaults > /dev/null 2>&1
+  cd /etc/init.d; chmod 775 auto-clean.sh
+  ./auto-clean.sh; cd /$HOME
+fi
+}
+
+fun_rm() {
+
+if [[ $release = centos ]]; then
+ service auto-clean.sh stop
+ chkconfig --del auto-clean.sh
+ rm -rf /etc/init.d/auto-clean.sh
+ killall auto-clean.sh
+elif [[ $release = debian ]] || [[ $release = ubuntu ]]; then
+  update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
+  rm -rf /etc/init.d/auto-clean.sh
+  killall auto-clean.sh
+fi
+}
 
 fun_inst() {
 
@@ -123,10 +152,7 @@ done
   echo -e "\033[1;36mInstalling..."
   sleep 1
   echo ""
-#Run at system startup
-  update-rc.d auto-clean.sh defaults > /dev/null 2>&1
-  cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd /$HOME
+  fun_startup
   echo -e "\033[1;36mInstallation completed!"
 else
   echo ""
@@ -168,8 +194,6 @@ else
   read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
   [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
 #Re-installing
-  rm -rf /etc/init.d/auto-clean.sh
-  update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
-  killall auto-clean.sh > /dev/null 2>&1
+  fun_rm
   fun_inst
 fi
