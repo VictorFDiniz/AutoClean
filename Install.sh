@@ -26,27 +26,27 @@ done
 }
 
 if [[ -f /etc/redhat-release ]]; then
-	release="centos"
+	_release="centos"
 elif cat /etc/issue | grep -q -E -i "debian"; then
-	release="debian"
+	_release="debian"
 elif cat /etc/issue | grep -q -E -i "ubuntu"; then
-  	release="ubuntu"
+  	_release="ubuntu"
 elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
-	release="centos"
+	_release="centos"
 elif cat /proc/version | grep -q -E -i "debian"; then
-	release="debian"
+	_release="debian"
 elif cat /proc/version | grep -q -E -i "ubuntu"; then
-	release="ubuntu"
+	_release="ubuntu"
 elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
-	release="centos"
+	_release="centos"
 fi
 
   echo -e "\033[1;33mRepo Upgrading :)\033[0m"
   echo ""
-if [[ $release = "centos" ]]; then
+if [[ $_release = "centos" ]]; then
   fun_bar 'yum install epel-release' 'yum repolist'
   fun_bar 'yum update' 'yum install figlet'
-elif [[ $release = "debian" ]] || [[ $release = "ubuntu" ]]; then
+elif [[ $_release = "debian" ]] || [[ $_release = "ubuntu" ]]; then
   fun_bar 'apt-get update' 'apt-get install figlet'
 else
   echo ""
@@ -68,12 +68,12 @@ fi
 fun_startup() {
 
 #booting and setting to run at system startup
-if [[ $release = centos ]]; then
+if [[ $_release = centos ]]; then
   chkconfig --add auto-clean.sh
   chkconfig --level 3 auto-clean.sh on
   cd /etc/init.d; chmod 775 auto-clean.sh
   ./auto-clean.sh; cd /$HOME
-elif [[ $release = debian ]] || [[ $release = ubuntu ]]; then
+elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   cd /etc/init.d; chmod 775 auto-clean.sh
   ./auto-clean.sh; cd /$HOME
@@ -82,12 +82,12 @@ fi
 
 fun_rm() {
 
-if [[ $release = centos ]]; then
+if [[ $_release = centos ]]; then
  service auto-clean.sh stop > /dev/null 2>&1
  chkconfig --del auto-clean.sh > /dev/null 2>&1
  rm -rf /etc/init.d/auto-clean.sh
  killall auto-clean.sh > /dev/null 2>&1
-elif [[ $release = debian ]] || [[ $release = ubuntu ]]; then
+elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
   update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
   killall auto-clean.sh > /dev/null 2>&1
@@ -161,7 +161,7 @@ fi
   
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
-[[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+[[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
   echo -e "
 \033[1;33mValues for the Swappiness range from 0 to 100.
 Choose a value of 60 for Swappiness means that 
@@ -188,11 +188,11 @@ done
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
   echo ""
   read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
-  [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+  [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
   fun_inst
 else
   read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
-  [[ $response = @(n|N) ]] && rm Install.sh && sleep 0.5 && exit 0
+  [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
 #Re-installing
   fun_rm
   fun_inst
