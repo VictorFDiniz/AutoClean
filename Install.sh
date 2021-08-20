@@ -100,6 +100,7 @@ fun_inst() {
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/delete-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
+  chmod 775 /bin delete-auto; chmod 775 /bin start-auto; chmod 775 /bin stop-auto
   
   echo -e "
 \033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing
@@ -184,9 +185,6 @@ else
 fi
 done
   echo ""
-  chmod 775 /bin delete-auto
-  chmod 775 /bin start-auto
-  chmod 775 /bin stop-auto
   rm -rf Install.sh
 }
 
