@@ -27,3 +27,6 @@ elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
   killall auto-clean.sh > /dev/null 2>&1
 fi
 
+rm -rf start-auto
+rm -rf stop-auto
+rm -rf delete-auto
