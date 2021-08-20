@@ -83,10 +83,10 @@ fi
 fun_rm() {
 
 if [[ $_release = centos ]]; then
- service auto-clean.sh stop > /dev/null 2>&1
- chkconfig --del auto-clean.sh > /dev/null 2>&1
- rm -rf /etc/init.d/auto-clean.sh
- killall auto-clean.sh > /dev/null 2>&1
+  service auto-clean.sh stop > /dev/null 2>&1
+  chkconfig --del auto-clean.sh > /dev/null 2>&1
+  rm -rf /etc/init.d/auto-clean.sh
+  killall auto-clean.sh > /dev/null 2>&1
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
   update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
@@ -97,6 +97,9 @@ fi
 fun_inst() {
 
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
+  wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/delete-auto > /dev/null 2>&1
+  wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
+  wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
   
   echo -e "
 \033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing
@@ -181,6 +184,9 @@ else
 fi
 done
   echo ""
+  chmod 775 /bin delete-auto
+  chmod 775 /bin start-auto
+  chmod 775 /bin stop-auto
   rm -rf Install.sh
 }
 
