@@ -17,16 +17,18 @@ elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
 fi
 
 if [[ $_release = centos ]]; then
+  
   service auto-clean.sh stop > /dev/null 2>&1
   chkconfig --del auto-clean.sh > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
   killall auto-clean.sh > /dev/null 2>&1
+
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
+  
   update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
   killall auto-clean.sh > /dev/null 2>&1
+
 fi
 
-rm -rf /bin/start-auto
-rm -rf /bin/stop-auto
-rm -rf /bin/rm-auto
+rm -rf /bin/*-auto
