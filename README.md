@@ -1,4 +1,4 @@
-# CacheAutoClean
+# AutoClean
 
 _Languages:_ <a href="https://github.com/VictorFDiniz/CacheAutoClean/blob/main/README.pt-br.md">Português-br<a/>, <a href="https://github.com/VictorFDiniz/CacheAutoClean/edit/main/README.md">English</a>
 
