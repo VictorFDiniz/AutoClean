@@ -107,7 +107,7 @@ fun_inst() {
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/rm-auto > /dev/null 2>&1
-  chmod 775 /bin/delete-auto; chmod 775 /bin/start-auto; chmod 775 /bin/stop-auto
+  chmod 775 /bin/rm-auto; chmod 775 /bin/start-auto; chmod 775 /bin/stop-auto
   
   echo -e "
 \033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing
@@ -180,7 +180,7 @@ the system can Swap once the RAM reaches 40% usage.\033[0m"
   echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
-sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
+  sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
   sysctl -p /etc/sysctl.conf > /dev/null 2>&1
   echo ""
   sleep 0.5
