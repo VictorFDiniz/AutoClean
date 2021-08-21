@@ -61,44 +61,52 @@ fi
   echo -e "\033[1;36m////////////////////////////////////////////////////////////"
   echo ""
   echo ""
-  
-  mv Install.sh /$HOME > /dev/null 2>&1
 
 fun_startup() {
 
 #booting and setting to run at system startup
 if [[ $_release = centos ]]; then
+  
   chkconfig --add auto-clean.sh
   chkconfig --level 3 auto-clean.sh on
   cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd /$HOME
+  ./auto-clean.sh; cd $HOME
+
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
+
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd /$HOME
+  ./auto-clean.sh; cd $HOME
+
 fi
 }
 
 fun_rm() {
 
 if [[ $_release = centos ]]; then
+  
   service auto-clean.sh stop > /dev/null 2>&1
   chkconfig --del auto-clean.sh > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
+  rm -rf /bin/*-auto
   killall auto-clean.sh > /dev/null 2>&1
+
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
+  
   update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
   rm -rf /etc/init.d/auto-clean.sh
+  rm -rf /bin/*-auto
   killall auto-clean.sh > /dev/null 2>&1
+  
 fi
 }
 
 fun_inst() {
 
   wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-  wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/delete-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
   wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
+  wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/rm-auto > /dev/null 2>&1
   chmod 775 /bin/delete-auto; chmod 775 /bin/start-auto; chmod 775 /bin/stop-auto
   
   echo -e "
