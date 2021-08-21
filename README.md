@@ -4,4 +4,4 @@
 
 CentOS, Debian, Ubuntu:
 
- wget -c -P /$HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/Install.sh && cd /$HOME && chmod +x Install.sh && ./Install.sh 
+ wget -c -P $HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/Install.sh && cd $HOME && chmod +x Install.sh && ./Install.sh 
