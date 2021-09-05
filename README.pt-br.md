@@ -1,6 +1,6 @@
 _Linguagens:_ <a href="https://github.com/VictorFDiniz/CacheAutoClean/edit/main/README.md">English</a>, <a href="https://github.com/VictorFDiniz/CacheAutoClean/blob/main/README.pt-br.md">Português-br<a/>
 
-![auto](https://user-images.githubusercontent.com/86570043/124396536-8eb5db80-dce0-11eb-891b-86b993047dd1.png)
+![auto](https://user-images.githubusercontent.com/86570043/132133920-1b91914e-0043-4f92-950f-e66faf8482a0.png)
 
 ## Comando de instalação para CentOS, Debian and Ubuntu
 ```
