@@ -15,6 +15,10 @@ there are three cleaning options:
 ![auto02](https://user-images.githubusercontent.com/86570043/132132958-05897109-85ff-4191-9cd1-d4bbf168d426.png)
   
 Clearing the cache might not be a good idea in production environments. But if you are determined to use the script. The first option(PageCache clearing) is the safest.
+  
+![auto03](https://user-images.githubusercontent.com/86570043/132133554-a61fd8bc-aac6-4696-a680-daa6dc4c65d5.png)
+
+Or just skip and go straight to the swappiness configuration.
 
 ## Commands
 ```
