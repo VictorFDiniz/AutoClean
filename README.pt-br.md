@@ -14,7 +14,7 @@ Há três opções de limpeza:
 
 ![auto02](https://user-images.githubusercontent.com/86570043/132132958-05897109-85ff-4191-9cd1-d4bbf168d426.png)
   
-Fazer a limpeza do cache em ambientes de produção pode não ser uma boia ideia. Mas se mesmo assim decidir utilizar o script no seu ambiente de produção, a primeira opção é a mais segura.
+Fazer a limpeza do cache em ambientes de produção pode não ser uma boia ideia. Mas se mesmo assim decidir utilizar o script no seu ambiente de produção, a primeira opção(PageCache clearing) é a mais segura.
   
 ![auto03](https://user-images.githubusercontent.com/86570043/132133554-a61fd8bc-aac6-4696-a680-daa6dc4c65d5.png)
   
