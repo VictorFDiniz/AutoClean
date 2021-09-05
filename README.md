@@ -13,6 +13,8 @@ If you have a server that not has enough RAM, crashes frequently and you don't h
 there are three cleaning options:
   
 ![auto02](https://user-images.githubusercontent.com/86570043/132132958-05897109-85ff-4191-9cd1-d4bbf168d426.png)
+  
+Clearing the cache might not be a good idea in production environments. But if you are determined to use the script. The first option is the safest.
 
 ## Commands
 ```
