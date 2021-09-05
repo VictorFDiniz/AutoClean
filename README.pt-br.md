@@ -10,7 +10,7 @@ wget -c -P $HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/m
 ## Sobre o script
 Se tem um servidor que não tem RAM suficiente, trava com frequencia e você não tem grana para fazer um upgrade. Esse script pode te ajudar! Você pode definir um valor limite de uso de RAM. Se o valor for atingido, o script limpa o cache alocado na RAM automaticamente afim de evitar que o servidor trave. Também é possivel configurar a memoria Swap via Swappinnes para aliviar a RAM, caso ela atinja certo valor.
   
-Há opções de limpeza:
+Há três opções de limpeza:
 
 ![auto02](https://user-images.githubusercontent.com/86570043/132132958-05897109-85ff-4191-9cd1-d4bbf168d426.png)
   
