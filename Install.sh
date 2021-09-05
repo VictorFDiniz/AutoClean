@@ -116,7 +116,7 @@ fun_inst() {
 \033[1;36m4\033[1;31m) Skip\033[0m"
   echo ""
 while true; do
-  read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? \033[1;33m[1/2/3]:\033[1;37m ")" x
+  read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? \033[1;33m[1/2/3/4]:\033[1;37m ")" x
   case $x in
       1 | 01)
       sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
