@@ -1,6 +1,9 @@
 #!/bin/bash
 
-  [[ "$EUID" -ne 0 ]] && echo "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
+  _SYSFILE="/proc/sys/vm/drop_caches"
+  
+  [[ $EUID -ne 0 ]] && echo "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
+  [[ ! -w $_SYSFILE ]] && echo "\033[1;33mSorry, your VPS virtualization does not support this script\033[0m" && exit 1
 
 fun_bar () {
   
