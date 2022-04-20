@@ -147,8 +147,7 @@ if [[ $_skip != true ]]; then
   echo -e "
 \033[1;33mValues for the cache's trigger range from 5 to 90. 
 Choose a value of 5 for the trigger means that 
-cleaning will occur whenever RAM reaches 95% usage. 
-Values above 30 are not recommended, constant cleaning may corrupt something.\033[0m"
+cleaning will occur whenever RAM reaches 95% usage.\033[0m"
   echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[5-90]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 90 )); then
