@@ -3,7 +3,7 @@
   _SYSFILE="/proc/sys/vm/drop_caches"
   
   [[ $EUID -ne 0 ]] && echo -e "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
-  [[ ! -w $_SYSFILE ]] && echo -e "\033[1;33mSorry, your VPS virtualization does not support this script :(\033[0m" && exit 1
+  [[ ! -w $_SYSFILE ]] && echo -e "\033[1;33mSorry, your VPS virtualization does not support this script :(\033[0m" && rm -rf Install.sh; exit 1
 
 fun_bar () {
   
@@ -72,14 +72,14 @@ if [[ $_release = centos ]]; then
   
   chkconfig --add auto-clean.sh
   chkconfig --level 3 auto-clean.sh on
-  cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd $HOME
+  chmod 775 /etc/init.d/auto-clean.sh
+  source /etc/init.d/auto-clean.sh
 
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
 
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
-  cd /etc/init.d; chmod 775 auto-clean.sh
-  ./auto-clean.sh; cd $HOME
+  chmod 775 /etc/init.d/auto-clean.sh
+  source /etc/init.d/auto-clean.sh
 
 fi
 }
