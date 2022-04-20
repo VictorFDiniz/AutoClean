@@ -3,7 +3,7 @@
   _SYSFILE="/proc/sys/vm/drop_caches"
   
   [[ $EUID -ne 0 ]] && echo -e "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
-  [[ ! -w $_SYSFILE ]] && echo -e "\033[1;33mSorry, your VPS virtualization does not support this script\033[0m" && exit 1
+  [[ ! -w $_SYSFILE ]] && echo -e "\033[1;33mSorry, your VPS virtualization does not support this script :(\033[0m" && exit 1
 
 fun_bar () {
   
@@ -48,9 +48,9 @@ fi
   echo ""
 if [[ $_release = "centos" ]]; then
   fun_bar 'yum install epel-release' 'yum repolist'
-  fun_bar 'yum update' 'yum install figlet'
+  fun_bar 'yum update' 'yum install figlet' 'yum install psmisc'
 elif [[ $_release = "debian" ]] || [[ $_release = "ubuntu" ]]; then
-  fun_bar 'apt-get update' 'apt-get install figlet'
+  fun_bar 'apt-get update' 'apt-get install figlet' 'apt-get install psmisc'
 else
   echo ""
   echo -e
