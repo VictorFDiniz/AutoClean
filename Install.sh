@@ -73,13 +73,13 @@ if [[ $_release = centos ]]; then
   chkconfig --add auto-clean.sh
   chkconfig --level 3 auto-clean.sh on
   chmod 775 /etc/init.d/auto-clean.sh
-  source /etc/init.d/auto-clean.sh
+  /bin/bash /etc/init.d/auto-clean.sh
 
 elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
 
   update-rc.d auto-clean.sh defaults > /dev/null 2>&1
   chmod 775 /etc/init.d/auto-clean.sh
-  source /etc/init.d/auto-clean.sh
+  /bin/bash /etc/init.d/auto-clean.sh
 
 fi
 }
