@@ -179,8 +179,11 @@ the system can Swap once the RAM reaches 40% usage.\033[0m"
   echo ""
 while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num ; do
 if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
-  sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
-  sysctl -p /etc/sysctl.conf > /dev/null 2>&1
+    if ! grep -q "^vm.swappiness" /etc/sysctl.conf; then
+    echo "vm.swappiness=$_num" >> /etc/sysctl.conf
+else
+	sed -i "s/.*vm.swappiness.*/vm.swappiness=$_num/" /etc/sysctl.conf
+fi
   echo ""
   sleep 0.5
   echo -e "\033[1;31mDONE!\033[0m"
