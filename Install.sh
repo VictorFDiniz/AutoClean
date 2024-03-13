@@ -1,7 +1,15 @@
 #!/bin/bash
 
-[[ $EUID -ne 0 ]] && echo -e "\033[1;33mSorry, you need to run this as root\033[0m" && exit 1
+# Color variables
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+CYAN='\033[1;36m'
+RESET='\033[0m'
 
+# Check if the script is running as root
+[[ $EUID -ne 0 ]] && echo -e "${YELLOW}Sorry, you need to run this as root${RESET}" && exit 1
+
+# Function to display a progress bar
 fun_bar () {
     command[0]="$1"
     command[1]="$2"
@@ -11,19 +19,21 @@ fun_bar () {
         ${command[1]} -y > /dev/null 2>&1
         touch $HOME/end
     ) > /dev/null 2>&1 &
+    
     while true; do
         for ((i = 0; i < 20; i++)); do
-            echo -ne "\033[1;31m#"
+            echo -ne "${RED}#"
             sleep 0.1
         done
         [[ -e $HOME/end ]] && rm $HOME/end && break
-        echo -e "\033[1;31m#"
+        echo -e "${RED}#"
         sleep 1
         tput cuu1
         tput dl1
     done
 }
 
+# Detect Linux distribution
 detect_linux_distribution() {
     if [[ -f /etc/redhat-release ]]; then
         _release="centos"
@@ -36,15 +46,15 @@ detect_linux_distribution() {
     elif grep -qiE "centos|red hat|redhat" /proc/version; then
         _release="centos"
     else
-        echo -e "\033[1;31mCentOS, Debian or Ubuntu not detected,"
-        echo -e "maybe the script doesn't work correctly\033[0m."
+        echo -e "${RED}CentOS, Debian, or Ubuntu not detected. The script may not work correctly.${RESET}"
         exit 1
     fi
 }
 
+# Upgrade repository and install necessary packages
 repo_upgrade() {
-	echo ""
-    echo -e "\033[1;33mRepo Upgrading :)\033[0m"
+    echo ""
+    echo -e "${YELLOW}Updating repositories...${RESET}"
     echo ""
     case $_release in
         "centos")
@@ -57,12 +67,16 @@ repo_upgrade() {
     esac
 }
 
+# Main script starts here
+
+# Clear screen and display script header
 clear
-echo -e "\033[1;36m////////////////////////////////////////////////////////////"
+echo -e "${CYAN}////////////////////////////////////////////////////////////"
 figlet AutoClean
-echo -e "\033[1;36m////////////////////////////////////////////////////////////"
+echo -e "////////////////////////////////////////////////////////////${RESET}"
 echo ""
 
+# Function to configure startup script
 script_startup() {
     case $_release in
         "centos")
@@ -79,6 +93,7 @@ script_startup() {
     esac
 }
 
+# Function to remove startup script
 script_rm() {
     case $_release in
         "centos")
@@ -93,7 +108,8 @@ script_rm() {
     pkill auto-clean.sh > /dev/null 2>&1
 }
 
-script_down() {
+# Function to download necessary scripts
+scripts_download() {
     wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
     wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
     wget -c -P /bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
@@ -101,16 +117,17 @@ script_down() {
     chmod 775 /bin/rm-auto; chmod 775 /bin/start-auto; chmod 775 /bin/stop-auto
 }
 
+# Function to configure cache cleanup
 configure_cache_cleanup() {
-	echo ""
-	echo ""
-    echo -e "\033[1;36m1\033[1;31m) \033[1;33mAutomate PageCache clearing"
-    echo -e "\033[1;36m2\033[1;31m) \033[1;33mAutomate dentries and inodes clearing"
-    echo -e "\033[1;36m3\033[1;31m) \033[1;33mAutomate PageCache, dentries and inodes clearing"
-    echo -e "\033[1;36m4\033[1;31m) Skip\033[0m"
+    echo ""
+    echo -e "
+${CYAN}1${RED}) ${YELLOW}Automate PageCache clearing
+${CYAN}2${RED}) ${YELLOW}Automate dentries and inodes clearing
+${CYAN}3${RED}) ${YELLOW}Automate PageCache, dentries, and inodes clearing
+${CYAN}4${RED}) ${YELLOW}Skip${RESET}"
     echo ""
     while true; do
-        read -p "$(echo -e "\033[1;36mWhat do want to do \033[1;31m? \033[1;33m[1/2/3/4]:\033[1;37m ")" x
+        read -p "$(echo -e "${CYAN}What do you want to do ${RED}? ${YELLOW}[1/2/3/4]:${RESET} ")" x
         case $x in
             1 | 01)
                 sed -i "s/_cache_cln=.*/_cache_cln=1/" /etc/init.d/auto-clean.sh
@@ -130,7 +147,7 @@ configure_cache_cleanup() {
                 ;;
             *)
                 echo ""
-                echo -e "\033[1;31mInvalid option"
+                echo -e "${RED}Invalid option${RESET}"
                 sleep 0.5
                 echo ""
                 ;;
@@ -139,41 +156,42 @@ configure_cache_cleanup() {
 
     if [[ $_skip != true ]]; then
         echo -e "
-\033[1;33mValues for the cache's trigger range from 5 to 90. 
+${YELLOW}Values for the cache's trigger range from 5 to 90. 
 Choose a value of 5 for the trigger means that 
-cleaning will occur whenever RAM reaches 95% usage.\033[0m"
+cleaning will occur whenever RAM reaches 95% usage.${RESET}"
         echo ""
-        while read -p "$(echo -e "\033[1;36mSet a value for the cache's trigger \033[1;33m[5-90]: ")" _num ; do
+        while read -p "$(echo -e "${CYAN}Set a value for the cache's trigger ${YELLOW}[5-90]: ${RESET}")" _num ; do
             if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 90 )); then
                 sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
                 break
             else
                 echo ""
-                echo -e "\033[1;33mJust numbers from 5 to 90"
+                echo -e "${YELLOW}Just numbers from 5 to 90${RESET}"
             fi
         done
         echo ""
-        echo -e "\033[1;36mInstalling..."
+        echo -e "${CYAN}Installing..."
         sleep 1
         echo ""
         script_startup
-        echo -e "\033[1;36mInstallation completed!"
+        echo -e "${CYAN}Installation completed!"
     else
         echo ""
-        echo -e "\033[1;31mSkipped"
+        echo -e "${RED}Skipped${RESET}"
     fi
     echo ""
 }
 
+# Function to configure swappiness
 configure_swappiness() {
-    read -p "$(echo -e "\033[1;36mDo you want to change the swappiness \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
+    read -p "$(echo -e "${CYAN}Do you want to change the swappiness ${RED}? ${YELLOW}[Y/N]:${RESET} ")" -e -i y response
     [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
     echo -e "
-\033[1;33mValues for the Swappiness range from 0 to 100.
+${YELLOW}Values for the Swappiness range from 0 to 100.
 Choose a value of 60 for Swappiness means that 
-the system can Swap once the RAM reaches 40% usage.\033[0m"
+the system can Swap once the RAM reaches 40% usage.${RESET}"
     echo ""
-    while read -p "$(echo -e "\033[1;36mSet a value for Swappiness \033[1;33m[0-100]: ")" _num ; do
+    while read -p "$(echo -e "${CYAN}Set a value for Swappiness ${YELLOW}[0-100]: ${RESET}")" _num ; do
         if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
             if ! grep -q "^vm.swappiness" /etc/sysctl.conf; then
                 echo "vm.swappiness=$_num" >> /etc/sysctl.conf
@@ -183,34 +201,34 @@ the system can Swap once the RAM reaches 40% usage.\033[0m"
             sysctl -p /etc/sysctl.conf > /dev/null 2>&1
             echo ""
             sleep 0.5
-            echo -e "\033[1;31mDONE!\033[0m"
+            echo -e "${RED}DONE!${RESET}"
             rm -rf Install.sh
             exit 0
         else
             echo ""
-            echo -e "\033[1;33mJust numbers from 0 to 100"
+            echo -e "${YELLOW}Just numbers from 0 to 100${RESET}"
         fi
     done
     echo ""
 }
 
-#Checking and installing
+# Check if auto-clean script is already installed
 if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
     echo ""
-    read -p "$(echo -e "\033[1;36mDo you want to continue \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i y response
+    read -p "$(echo -e "${CYAN}Do you want to continue ${RED}? ${YELLOW}[Y/N]:${RESET} ")" -e -i y response
     [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
     detect_linux_distribution
     repo_upgrade
-    script_down
+    scripts_download
     configure_cache_cleanup
     configure_swappiness
 else
-    read -p "$(echo -e "\033[1;36mAlready installed, want to re-install \033[1;31m? \033[1;33m[Y/N]:\033[1;37m ")" -e -i n response
+    read -p "$(echo -e "${CYAN}Already installed, want to re-install ${RED}? ${YELLOW}[Y/N]:${RESET} ")" -e -i n response
     [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
-#Re-installing
+    #Re-installing
     detect_linux_distribution
     script_rm
-    script_down
+    scripts_download
     configure_cache_cleanup
     configure_swappiness
 fi
