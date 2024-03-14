@@ -124,7 +124,7 @@ configure_cache_cleanup() {
 ${CYAN}1${RED}) ${YELLOW}Automate PageCache clearing
 ${CYAN}2${RED}) ${YELLOW}Automate dentries and inodes clearing
 ${CYAN}3${RED}) ${YELLOW}Automate PageCache, dentries, and inodes clearing
-${CYAN}4${RED}) ${YELLOW}Skip${RESET}"
+${CYAN}4${RED}) ${RED}Skip${RESET}"
     echo ""
     while true; do
         read -p "$(echo -e "${CYAN}What do you want to do ${RED}? ${YELLOW}[1/2/3/4]:${RESET} ")" x
