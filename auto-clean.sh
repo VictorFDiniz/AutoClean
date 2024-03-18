@@ -18,4 +18,4 @@ if [[ $_ram_avl -le $_ram_trig ]]; then
   sync; echo $_cache_cln > /proc/sys/vm/drop_caches
 fi
   sleep 3.5
-done
+done &
