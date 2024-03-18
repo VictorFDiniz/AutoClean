@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cd /etc/init.d
-./auto-clean.sh
+/etc/init.d/auto-clean.sh
 cd /$HOME
