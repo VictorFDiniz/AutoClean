@@ -2,7 +2,7 @@
 
 # Checks if the number of arguments is correct
 if [ "$#" -ne 4 ]; then
-    echo "Usage: auto-clean cachecln <value> ramtrig <value>"
+    echo "Usage: autoclean cachecln <value> ramtrig <value>"
     exit 1
 fi
 
