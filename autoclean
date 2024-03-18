@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Checks if the number of arguments is correct
+if [ "$#" -ne 4 ]; then
+    echo "Usage: auto-clean cachecln <value> ramtrig <value>"
+    exit 1
+fi
+
+# Arguments passed to the wrapper
+cachecln="$2"
+ramtrig="$4"
+
+# Path to the auto-clean.sh script
+script_path="/etc/init.d/auto-clean.sh"
+
+# Updates the parameters in the auto-clean.sh script
+sed -i "s/_cache_cln=.*/_cache_cln=$cachecln/" "$script_path"
+sed -i "s/_ram_trig=.*/_ram_trig=$ramtrig/" "$script_path"
+
+# Starts the auto-clean.sh script
+pkill auto-clean.sh
+"$script_path"
