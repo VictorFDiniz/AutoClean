@@ -31,4 +31,5 @@ elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
 
 fi
 
-rm -rf /bin/*-auto
+rm -rf /usr/local/bin/*-auto
+rm -rf /usr/local/bin/autoclean
