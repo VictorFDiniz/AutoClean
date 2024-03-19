@@ -161,7 +161,7 @@ Choose a value of 5 for the trigger means that
 cleaning will occur whenever RAM reaches 95% usage.${RESET}"
         echo ""
         while read -p "$(echo -e "${CYAN}Set a value for the cache's trigger ${YELLOW}[5-90]: ${RESET}")" _num ; do
-            if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 5 && $_num <= 90 )); then
+            if [[ $_num =~ ^[5-9]|[1-8][0-9]|90$ ]]; then
                 sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
                 break
             else
@@ -192,7 +192,7 @@ Choose a value of 60 for Swappiness means that
 the system can Swap once the RAM reaches 40% usage.${RESET}"
     echo ""
     while read -p "$(echo -e "${CYAN}Set a value for Swappiness ${YELLOW}[0-100]: ${RESET}")" _num ; do
-        if [[ $_num =~ ^[0-9]+$ ]] && (( $_num >= 0 && $_num <= 100 )); then
+        if [[ $_num =~ ^[0-9]|[1-9][0-9]|100$ ]]; then
             if ! grep -q "^vm.swappiness" /etc/sysctl.conf; then
                 echo "vm.swappiness=$_num" >> /etc/sysctl.conf
             else
