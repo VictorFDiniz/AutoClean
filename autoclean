@@ -85,7 +85,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 pkill auto-clean.sh
-$script_path
+script_path
 
 echo "cachecln: $cache_cln"
 echo "ramtrig: $ram_trig"
