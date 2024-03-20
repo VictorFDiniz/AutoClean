@@ -110,11 +110,8 @@ script_rm() {
 # Function to download necessary scripts
 scripts_download() {
     wget -c -P /etc/init.d https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/auto-clean.sh > /dev/null 2>&1
-    wget -c -P /usr/local/bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/start-auto > /dev/null 2>&1
-    wget -c -P /usr/local/bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/stop-auto > /dev/null 2>&1
-    wget -c -P /usr/local/bin https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/rm-auto > /dev/null 2>&1
     wget -c -P /usr/local/bin https://raw.githubusercontent.com/VictorFDiniz/AutoClean/main/autoclean > /dev/null 2>&1
-    chmod 775 /usr/local/bin/rm-auto; chmod 775 /usr/local/bin/start-auto; chmod 775 /usr/local/bin/stop-auto; chmod 775 /usr/local/bin/autoclean
+    chmod 775 /usr/local/bin/autoclean
 }
 
 # Function to configure cache cleanup
