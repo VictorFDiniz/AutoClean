@@ -4,7 +4,7 @@ _Linguagens:_ <a href="https://github.com/VictorFDiniz/CacheAutoClean/edit/main/
 
 ## Comando de instalação para CentOS, Debian and Ubuntu
 ```
-wget -c -P $HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/Install.sh; cd $HOME; chmod +x Install.sh; ./Install.sh
+wget -c -P $HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/main/Install.sh; cd $HOME; chmod +x install.sh; ./install.sh
 ```
 
 ## Sobre o script
