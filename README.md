@@ -22,7 +22,11 @@ Or just skip and go straight to the swappiness configuration.
 
 ## Commands
 ```
-stop-auto, to stop
-start-auto, to start when stopped
-rm-auto, to remove the script
+Usage: cachecln <value> ramtrig <value>
+Example: cachecln 2 ramtrig 45
+
+autoclean stop, to stop
+autoclean start, to start when stopped
+autoclean restart, to restart
+autoclean remove, to remove the script
 ```
