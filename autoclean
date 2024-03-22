@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Function to display usage message
-show_usage() {
-    echo "Usage: cachecln <value> ramtrig <value>"
-    echo "Example: cachecln 2 ramtrig 45"
-    exit 1
-}
-
 # Detect Linux distribution
 detect_linux_distribution() {
     if [[ -f /etc/redhat-release ]]; then
@@ -25,22 +18,57 @@ detect_linux_distribution() {
     fi
 }
 
-# Function to remove auto-clean script
-script_rm() {
+# Function to display usage message
+show_usage() {
+    echo "Usage: cachecln <value> ramtrig <value>"
+    echo "Example: cachecln 2 ramtrig 45"
+    exit 1
+}
 
+# Function to start the auto-clean.sh script
+autoclean_start() {
+    # Check if the script is already running
+    if pgrep auto-clean.sh > /dev/null; then
+        echo "The script is already running."
+    else
+        /etc/init.d/auto-clean.sh
+    fi
+}
+
+# Function to stop the auto-clean.sh script
+autoclean_stop() {
+    pkill auto-clean.sh > /dev/null 2>&1
+    echo "Script stopped."
+}
+
+# Function to restart the auto-clean.sh script
+autoclean_restart() {
+    pkill auto-clean.sh
+    autoclean_start
+}
+
+# Function to remove the auto-clean.sh script
+autoclean_remove() {
     if [[ $_release = centos ]]; then
         service auto-clean.sh stop > /dev/null 2>&1
         chkconfig --del auto-clean.sh > /dev/null 2>&1
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
+		rm -rf /usr/local/bin/autoclean
+		echo "script was removed"
     elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
         update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
+		rm -rf /usr/local/bin/autoclean
+		echo "script was removed"
     fi
+}
 
-    rm -rf /usr/local/bin/*-auto
-    rm -rf /usr/local/bin/autoclean
+# Function to display trigger values
+trig_values() {
+    echo "cachecln: $cache_cln"
+    echo "ramtrig: $ram_trig"
 }
 
 # Path to the auto-clean.sh script
@@ -57,7 +85,7 @@ while [ "$#" -gt 0 ]; do
             fi
             sed -i "s/_cache_cln=.*/_cache_cln=$2/" "$script_path"
             cache_cln="$2"
-            shift 2
+			shift 2
             ;;
         ramtrig)
             # Check if the second argument is a number between 5 and 90
@@ -67,25 +95,28 @@ while [ "$#" -gt 0 ]; do
             fi
             sed -i "s/_ram_trig=.*/_ram_trig=$2/" "$script_path"
             ram_trig="$2"
-            shift 2
+            autoclean_restart
+            trig_values
+			shift 2
             ;;
         start)
-            /etc/init.d/auto-clean.sh
+            autoclean_start
+			break
             ;;
         stop)
-            pkill auto-clean.sh > /dev/null 2>&1
+            autoclean_stop
+			break
+            ;;
+        restart)
+            autoclean_restart
+			break
             ;;
         remove)
-            script_rm
+            autoclean_remove
+			break
             ;;
         *)
             show_usage
             ;;
     esac
 done
-
-pkill auto-clean.sh
-script_path
-
-echo "cachecln: $cache_cln"
-echo "ramtrig: $ram_trig"
