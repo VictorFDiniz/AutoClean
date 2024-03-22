@@ -112,6 +112,7 @@ while [ "$#" -gt 0 ]; do
             break
             ;;
         remove)
+            detect_linux_distribution
             autoclean_remove
             break
             ;;
