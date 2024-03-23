@@ -8,13 +8,13 @@ wget -c -P $HOME https://raw.githubusercontent.com/VictorFDiniz/CacheAutoClean/m
 ```
 
 ## About this script
-If you have a server that not has enough RAM, crashes frequently and you don't have the budget for an upgrade. This script can help you :) You can set a limit RAM usage value. If the value is reached, the script automatically clears the cache on RAM in order to avoid a crash. Also it's possible to configure the Swap memory via Swappiness to alleviate the RAM memory if it reaches a certain value.
+If you have a server that doesn't have enough RAM, crashes frequently, and you don't have the budget for an upgrade, this script can help you! You can set a limit value for RAM usage. If the value is reached, the script automatically clears the cache allocated in RAM to prevent the server from crashing. It's also possible to configure Swap memory via Swappiness to alleviate RAM usage when it reaches a certain threshold.
 
-there are three cleaning options:
+There are three cleaning options:
   
 ![auto02](https://user-images.githubusercontent.com/86570043/132132958-05897109-85ff-4191-9cd1-d4bbf168d426.png)
   
-Clearing the cache might not be a good idea in production environments. But if you are determined to use the script. The first option(PageCache clearing) is the safest.
+Clearing the cache in production environments may not be a good idea. But if you still decide to use the script in your production environment, the first option (PageCache clearing) is the safest.
   
 ![auto03](https://user-images.githubusercontent.com/86570043/132133554-a61fd8bc-aac6-4696-a680-daa6dc4c65d5.png)
 
