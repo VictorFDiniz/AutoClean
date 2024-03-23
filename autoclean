@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Color variables
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+RESET='\033[0m'
+
 # Detect Linux distribution
 detect_linux_distribution() {
     if [[ -f /etc/redhat-release ]]; then
@@ -20,8 +25,8 @@ detect_linux_distribution() {
 
 # Function to display usage message
 show_usage() {
-    echo "Usage: cachecln <value> ramtrig <value>"
-    echo "Example: cachecln 2 ramtrig 45"
+    echo -e "${YELLOW}Usage: cachecln <value> ramtrig <value>${RESET}"
+	echo -e "${YELLOW}Example: cachecln 2 ramtrig 45${RESET}"
     exit 1
 }
 
@@ -29,7 +34,7 @@ show_usage() {
 autoclean_start() {
     # Check if the script is already running
     if pgrep auto-clean.sh > /dev/null; then
-        echo "The script is already running."
+        echo -e "${YELLOW}The script is already running.${RESET}"
     else
         /etc/init.d/auto-clean.sh
     fi
@@ -38,7 +43,7 @@ autoclean_start() {
 # Function to stop the auto-clean.sh script
 autoclean_stop() {
     pkill auto-clean.sh > /dev/null 2>&1
-    echo "Script stopped."
+    echo -e "${YELLOW}Script stopped.${RESET}"
 }
 
 # Function to restart the auto-clean.sh script
@@ -55,20 +60,20 @@ autoclean_remove() {
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
-        echo "The script was removed."
+        echo -e "${YELLOW}The script was removed.${RESET}"
     elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
         update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
-        echo "The script was removed."
+        echo -e "${YELLOW}The script was removed.${RESET}"
     fi
 }
 
 # Function to display trigger values
 trig_values() {
-    echo "cachecln: $cache_cln"
-    echo "ramtrig: $ram_trig"
+    echo -e "${YELLOW}cachecln: $cache_cln${RESET}"
+    echo -e "${YELLOW}ramtrig: $ram_trig${RESET}"
 }
 
 # Path to the auto-clean.sh script
@@ -80,7 +85,7 @@ while [ "$#" -gt 0 ]; do
         cachecln)
             # Check if the second argument is a number between 1 and 3
             if ! [[ "$2" =~ ^[1-3]$ ]]; then
-                echo "Invalid value for cachecln. It must be a number between 1 and 3."
+                echo -e "${YELLOW}Invalid value for cachecln. It must be a number between 1 and 3.${RESET}"
                 show_usage
             fi
             sed -i "s/_cache_cln=.*/_cache_cln=$2/" "$script_path"
@@ -90,7 +95,7 @@ while [ "$#" -gt 0 ]; do
         ramtrig)
             # Check if the second argument is a number between 5 and 90
             if ! [[ "$2" =~ ^[5-9]|[1-8][0-9]|90$ ]]; then
-                echo "Invalid value for ramtrig. It must be a number between 5 and 90."
+                echo -e "${YELLOW}Invalid value for ramtrig. It must be a number between 5 and 90.${RESET}"
                 show_usage
             fi
             sed -i "s/_ram_trig=.*/_ram_trig=$2/" "$script_path"
@@ -101,6 +106,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         start)
             autoclean_start
+			echo -e "${YELLOW}Script started.${RESET}"
             break
             ;;
         stop)
@@ -109,6 +115,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         restart)
             autoclean_restart
+			echo -e "${YELLOW}Script restarted.${RESET}"
             break
             ;;
         remove)
