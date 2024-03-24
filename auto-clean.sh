@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ### BEGIN INIT INFO
 # Provides:          auto-clean
 # Required-Start:    $remote_fs $syslog
