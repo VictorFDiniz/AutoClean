@@ -71,11 +71,13 @@ repo_upgrade() {
 # Main script starts here
 
 # Clear screen and display script header
-clear
-echo -e "${CYAN}////////////////////////////////////////////////////////////"
-figlet AutoClean
-echo -e "////////////////////////////////////////////////////////////${RESET}"
-echo ""
+display_header() {
+    clear
+    echo -e "${CYAN}////////////////////////////////////////////////////////////"
+    figlet AutoClean
+    echo -e "////////////////////////////////////////////////////////////${RESET}"
+    echo ""
+}
 
 # Function to configure startup script
 script_startup() {
@@ -215,7 +217,8 @@ if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
     read -p "$(echo -e "${CYAN}Do you want to continue ${RED}? ${YELLOW}[Y/N]:${RESET} ")" -e -i y response
     [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
     detect_linux_distribution
-    repo_upgrade
+	repo_upgrade
+	display_header
     scripts_download
     configure_cache_cleanup
     configure_swappiness
