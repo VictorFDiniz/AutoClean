@@ -26,7 +26,7 @@ detect_linux_distribution() {
 # Function to display usage message
 show_usage() {
     echo -e "${YELLOW}Usage: cachecln <value> ramtrig <value>${RESET}"
-	echo -e "${YELLOW}Example: cachecln 2 ramtrig 45${RESET}"
+    echo -e "${YELLOW}Example: cachecln 2 ramtrig 45${RESET}"
     exit 1
 }
 
@@ -60,12 +60,16 @@ autoclean_remove() {
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
+        sed -i "s/.*vm.swappiness.*/vm.swappiness=/" /etc/sysctl.conf
+        sysctl -p /etc/sysctl.conf > /dev/null 2>&1
         echo -e "${YELLOW}The script was removed.${RESET}"
     elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
         update-rc.d -f auto-clean.sh remove > /dev/null 2>&1
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
+        sed -i "s/.*vm.swappiness.*/vm.swappiness=/" /etc/sysctl.conf
+        sysctl -p /etc/sysctl.conf > /dev/null 2>&1
         echo -e "${YELLOW}The script was removed.${RESET}"
     fi
 }
@@ -106,7 +110,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         start)
             autoclean_start
-			echo -e "${YELLOW}Script started.${RESET}"
+            echo -e "${YELLOW}Script started.${RESET}"
             break
             ;;
         stop)
@@ -115,7 +119,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         restart)
             autoclean_restart
-			echo -e "${YELLOW}Script restarted.${RESET}"
+            echo -e "${YELLOW}Script restarted.${RESET}"
             break
             ;;
         remove)
