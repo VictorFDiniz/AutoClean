@@ -23,10 +23,22 @@ detect_linux_distribution() {
     fi
 }
 
-# Function to display usage message
+# Function to display usage instructions
 show_usage() {
-    echo -e "${YELLOW}Usage: cachecln <value> ramtrig <value>${RESET}"
-    echo -e "${YELLOW}Example: cachecln 2 ramtrig 45${RESET}"
+    echo ""
+    echo -e "${YELLOW}Usage: autoclean <command> [options]${RESET}"
+    echo -e "${YELLOW}Commands:${RESET}"
+    echo -e "${YELLOW}  cachecln <value>   Set cache clean threshold (1-3)${RESET}"
+    echo -e "${YELLOW}  ramtrig <value>    Set RAM trigger value (5-90)${RESET}"
+    echo -e "${YELLOW}  swppns <value>     Set swappiness value (0-100)${RESET}"
+    echo -e "${YELLOW}Examples:${RESET}"
+    echo -e "${YELLOW}  autoclean cachecln 1${RESET}"
+    echo -e "${YELLOW}  autoclean ramtrig 45${RESET}"
+    echo -e "${YELLOW}  autoclean swppns 27${RESET}"
+	echo ""
+    echo -e "${YELLOW}Or pass multiple arguments:${RESET}"
+    echo -e "${YELLOW}  autoclean cachecln 2 ramtrig 34 swppns 37${RESET}"
+	echo ""
     exit 1
 }
 
@@ -60,7 +72,7 @@ autoclean_remove() {
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
-        sed -i "s/.*vm.swappiness.*/vm.swappiness=/" /etc/sysctl.conf
+        sed -i "s/.*vm.swappiness.*/vm.swappiness/" /etc/sysctl.conf
         sysctl -p /etc/sysctl.conf > /dev/null 2>&1
         echo -e "${YELLOW}The script was removed.${RESET}"
     elif [[ $_release = debian ]] || [[ $_release = ubuntu ]]; then
@@ -68,7 +80,7 @@ autoclean_remove() {
         rm -rf /etc/init.d/auto-clean.sh
         pkill auto-clean.sh > /dev/null 2>&1
         rm -rf /usr/local/bin/autoclean
-        sed -i "s/.*vm.swappiness.*/vm.swappiness=/" /etc/sysctl.conf
+        sed -i "s/.*vm.swappiness.*/vm.swappiness/" /etc/sysctl.conf
         sysctl -p /etc/sysctl.conf > /dev/null 2>&1
         echo -e "${YELLOW}The script was removed.${RESET}"
     fi
@@ -78,6 +90,7 @@ autoclean_remove() {
 trig_values() {
     echo -e "${YELLOW}cachecln: $cache_cln${RESET}"
     echo -e "${YELLOW}ramtrig: $ram_trig${RESET}"
+	echo -e "${YELLOW}swppns: $swpp_ns${RESET}"
 }
 
 # Path to the auto-clean.sh script
@@ -105,7 +118,22 @@ while [ "$#" -gt 0 ]; do
             sed -i "s/_ram_trig=.*/_ram_trig=$2/" "$script_path"
             ram_trig="$2"
             autoclean_restart
-            trig_values
+            shift 2
+			;;
+		swppns)
+            # Check if the second argument is a number between 0 and 100
+            if ! [[ "$2" =~ ^[0-9]|[1-9][0-9]|100$ ]]; then
+                echo -e "${YELLOW}Invalid value for swappiness. It must be a number between 0 and 100.${RESET}"
+                show_usage
+            fi
+            if ! grep -q "^vm.swappiness" /etc/sysctl.conf; then
+                echo "vm.swappiness=$2" >> /etc/sysctl.conf
+            else
+                sed -i "s/.*vm.swappiness.*/vm.swappiness=$2/" /etc/sysctl.conf
+            fi
+            sysctl -p /etc/sysctl.conf > /dev/null 2>&1
+            swpp_ns="$2"
+            autoclean_restart
             shift 2
             ;;
         start)
