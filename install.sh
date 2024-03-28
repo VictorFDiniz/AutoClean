@@ -160,7 +160,7 @@ Choose a value of 5 for the trigger means that
 cleaning will occur whenever RAM reaches 95% usage.${RESET}"
         echo ""
         while read -p "$(echo -e "${CYAN}Set a value for the cache's trigger ${YELLOW}[5-90]: ${RESET}")" _num ; do
-            if [[ $_num =~ ^[5-9]|[1-8][0-9]|90$ ]]; then
+            if [[ $_num =~ ^(5[0-9]|[5-9]|[1-8][0-9]|90)$ ]]; then
                 sed -i "s/_ram_trig=.*/_ram_trig=$_num/" /etc/init.d/auto-clean.sh
                 break
             else
@@ -191,7 +191,7 @@ Choose a value of 60 for Swappiness means that
 the system can Swap once the RAM reaches 40% usage.${RESET}"
     echo ""
     while read -p "$(echo -e "${CYAN}Set a value for Swappiness ${YELLOW}[0-100]: ${RESET}")" _num ; do
-        if [[ $_num =~ ^[0-9]|[1-9][0-9]|100$ ]]; then
+        if [[ $_num =~ ^([0-9]|[1-9][0-9]|100)$ ]]; then
             if ! grep -q "^vm.swappiness" /etc/sysctl.conf; then
                 echo "vm.swappiness=$_num" >> /etc/sysctl.conf
             else
@@ -217,8 +217,8 @@ if [[ ! -e /etc/init.d/auto-clean.sh ]]; then
     read -p "$(echo -e "${CYAN}Do you want to continue ${RED}? ${YELLOW}[Y/N]:${RESET} ")" -e -i y response
     [[ $response = @(n|N) ]] && rm -rf Install.sh && sleep 0.5 && exit 0
     detect_linux_distribution
-	repo_upgrade
-	display_header
+    repo_upgrade
+    display_header
     scripts_download
     configure_cache_cleanup
     configure_swappiness
