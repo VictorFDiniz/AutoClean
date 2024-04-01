@@ -22,28 +22,28 @@ Ou pule essa opção e vá direto para a configuração do swappiness.
 
 ## Comandos
 ```
-Usage: autoclean <command> [options]
+Uso: autoclean <comando> [opções]
 
-Commands:
+Comandos:
 
-cachecln <value> Set cache clean threshold (1-3)
-ramtrig <value> Set RAM trigger value (5-90)
-swppns <value> Set swappiness value (0-100)
+cachecln <valor> Define o grau de limpeza de cache (1-3)
+ramtrig <valor> Define o valor do gatilho de limpeza da RAM (5-90)
+swppns <valor> Define o valor de swappiness (0-100)
 
-Examples:
+Exemplos:
 
 autoclean cachecln 1
 autoclean ramtrig 45
 autoclean swppns 27
 
-Or pass multiple arguments:
+Ou passe vários argumentos:
 
 autoclean cachecln 2 ramtrig 34 swppns 37
 
-Additional commands:
+Comandos adicionais:
 
-autoclean stop Stop the script
-autoclean start Start the script if stopped
-autoclean restart Restart the script
-autoclean remove Remove the script
+autoclean stop, Interrompe o script
+autoclean start, Inicia o script se estiver parado
+autoclean restart, Reinicia o script
+autoclean remove, Remove o script
 ```
