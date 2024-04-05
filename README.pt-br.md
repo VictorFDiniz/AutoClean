@@ -22,7 +22,7 @@ Ou pule essa opção e vá direto para a configuração do swappiness.
 
 ## Comandos
 ```
-Uso: autoclean <comando> [opções]
+Uso: autoclean <comando> [valor]
 
 Comandos:
 
