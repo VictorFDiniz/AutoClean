@@ -92,7 +92,7 @@ autoclean_remove() {
 trig_values() {
     if [[ $SHOWN == false ]]; then
         echo -e "${YELLOW}Values have been updated:${RESET}"
-		echo ""
+        echo ""
         echo -e "${YELLOW}cachecln: $cache_cln${RESET}"
         echo -e "${YELLOW}ramtrig: $ram_trig${RESET}"
         echo -e "${YELLOW}swppns: $swpp_ns${RESET}"
@@ -115,7 +115,7 @@ while [ "$#" -gt 0 ]; do
             sed -i "s/_cache_cln=.*/_cache_cln=$2/" "$script_path"
             cache_cln="$2"
             shift 2
-			[[ "$#" -eq 0 ]] && trig_values
+            [[ "$#" -eq 0 ]] && trig_values
             ;;
         ramtrig)
             # Check if the second argument is a number between 5 and 90
@@ -127,7 +127,7 @@ while [ "$#" -gt 0 ]; do
             ram_trig="$2"
             autoclean_restart
             shift 2
-			[[ "$#" -eq 0 ]] && trig_values
+            [[ "$#" -eq 0 ]] && trig_values
             ;;
         swppns)
             # Check if the second argument is a number between 0 and 100
@@ -144,7 +144,7 @@ while [ "$#" -gt 0 ]; do
             swpp_ns="$2"
             autoclean_restart
             shift 2
-			[[ "$#" -eq 0 ]] && trig_values
+            [[ "$#" -eq 0 ]] && trig_values
             ;;
         start)
             autoclean_start
